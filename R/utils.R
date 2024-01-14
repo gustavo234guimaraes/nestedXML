@@ -17,7 +17,11 @@ get_children<-function(x){
 
 write_out<-function(x,ext,file,path){
   ext<-tolower(ext)
-  of<-paste0(normalizePath(path),"\\",gsub(basename(file),".xml",ext))
+  if(path!=""){
+    file<-basename(file)
+    path<-paste0(normalizePath(path),"\\")
+  }
+  of<-paste0(path,gsub(file,".xml",ext))
   if(ext%in%c(".csv",".txt")){
     data.table::fwrite(x,of)
   }else{
@@ -27,4 +31,5 @@ write_out<-function(x,ext,file,path){
       stop("Wrong output format. Choose between .csv, .txt or .rds")
     }
   }
+  
 }
