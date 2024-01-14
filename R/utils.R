@@ -15,7 +15,7 @@ get_children<-function(x){
   }
 }
 
-write_out(x,ext,file,path){
+write_out<-function(x,ext,file,path){
   ext<-tolower(ext)
   of<-paste0(normalizePath(path),"\\",gsub(basename(file),".xml",ext))
   if(ext%in%c(".csv",".txt")){
