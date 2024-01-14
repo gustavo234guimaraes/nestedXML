@@ -1,4 +1,4 @@
-convert_xml<-function(file,ext='.csv',out_dir=getwd()){
+convert_xml<-function(file,ext='.csv',out_dir=""){
   
   arqXML<-xmlParse(file)
   node<-names(xmlRoot(arqXML))
