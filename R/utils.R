@@ -21,7 +21,7 @@ write_out<-function(x,ext,file,path){
     file<-basename(file)
     path<-paste0(normalizePath(path),"\\")
   }
-  of<-paste0(path,gsub(file,".xml",ext))
+  of<-paste0(path,gsub(".xml",ext,file))
   if(ext%in%c(".csv",".txt")){
     data.table::fwrite(x,of)
   }else{
