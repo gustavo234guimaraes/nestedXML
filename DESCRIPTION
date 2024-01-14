@@ -1,4 +1,4 @@
-Package: nested_xml
+Package: nestedXML
 Type: Package
 Title: Fast way to load or convert xml files with a high level of nesting.
 Version: 0.1.0
