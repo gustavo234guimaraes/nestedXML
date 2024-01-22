@@ -13,7 +13,11 @@ read_xml(file)
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{file}{
-A character. Path to xml file.
+A character. Path to xml file which will be used by xpathApply. The default is NULL and the highest level node will be determined. 
+}
+
+  \item{node}{
+A character. Path to xml node.
 }
 }
 
