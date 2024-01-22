@@ -1,7 +1,10 @@
-read_xml<-function(file){
+read_xml<-function(file,node=NULL){
   
-  arqXML<-xmlParse(file)
-  node<-names(xmlRoot(arqXML))
+  if(is.null(node)){
+    arqXML<-xmlParse(file)
+    node<-names(xmlRoot(arqXML))
+  }
+  
   
   bind_rows(xpathApply(arqXML, paste0("//",node), function(x) {
     parent <- data.frame(as.list(xmlAttrs(x)), stringsAsFactors = FALSE)
