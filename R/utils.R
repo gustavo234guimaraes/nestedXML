@@ -7,7 +7,7 @@ with_names<-function(y,nm){
 get_children<-function(x){
   if(length(xmlChildren(x))>0){
     cbind.data.frame(
-      with_names(data.frame(as.list(xmlAttrs(x)), stringsAsFactors = FALSE),nm=names(x)),
+      with_names(data.frame(as.list(xmlAttrs(x)), stringsAsFactors = FALSE),nm=names(xmlParent(x))),
       bind_rows(lapply(xmlChildren(x),get_children))
     )
   }else{
