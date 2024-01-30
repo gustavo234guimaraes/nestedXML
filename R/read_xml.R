@@ -1,7 +1,7 @@
 read_xml<-function(file,node=NULL){
   
   if(is.null(node)){
-    arqXML<-xmlParse(file)
+    arqXML<-XML::xmlParse(file)
     node<-names(xmlRoot(arqXML))
   }
   
