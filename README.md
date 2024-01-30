@@ -40,44 +40,29 @@ xml_files
 ``` r
 df<-read_xml(xml_files[1])
 
-head(df)
+as_tibble(df)
 ```
 
-    ##     data_arq Categoria.data_mov Empresa.Tipo Veiculo.Codigo Veiculo.modalidade
-    ## 1 2014-01-01         2013-12-28            1            036                  1
-    ## 2 2014-01-01         2013-12-28            1            036                  1
-    ## 3 2014-01-01         2013-12-28            1            036                  1
-    ## 4 2014-01-01         2013-12-28            1            036                  1
-    ## 5 2014-01-01         2013-12-28            1            036                  1
-    ## 6 2014-01-01         2013-12-28            1            036                  1
-    ##   Linha.Numero Linha.validador Viagem.Numero Viagem.tabela
-    ## 1        36301            834K            51            14
-    ## 2        36301            834K            51            14
-    ## 3        36301            834K            51            14
-    ## 4        36301            834K            51            14
-    ## 5        36301            834K            51            14
-    ## 6        36301            834K            51            14
-    ##   Passageiro.data_hora_abertura Passageiro.data_hora_fechamento
-    ## 1           2013-12-28T05:41:35             2013-12-28T06:02:04
-    ## 2           2013-12-28T05:41:35             2013-12-28T06:02:04
-    ## 3           2013-12-28T05:41:35             2013-12-28T06:02:04
-    ## 4           2013-12-28T05:41:35             2013-12-28T06:02:04
-    ## 5           2013-12-28T05:41:35             2013-12-28T06:02:04
-    ## 6           2013-12-28T05:41:35             2013-12-28T06:02:04
-    ##   Passageiro.catraca_inicio Passageiro.catraca_final Passageiro.sentido
-    ## 1                     36736                    36756                  0
-    ## 2                     36736                    36756                  0
-    ## 3                     36736                    36756                  0
-    ## 4                     36736                    36756                  0
-    ## 5                     36736                    36756                  0
-    ## 6                     36736                    36756                  0
-    ##      Matricula tipo           data_hora valor_pago integracao sigben
-    ## 1 ChgXFpExBr8=    0 2013-12-28T05:47:21        2.2          0      0
-    ## 2 ChgXFpExBr8=    0 2013-12-28T05:49:24        2.2          0      0
-    ## 3 ChgXFpExBr8=    0 2013-12-28T05:52:03        2.2          0      0
-    ## 4 EDJN0rI+/bM=    4 2013-12-28T05:53:11        2.2          0      0
-    ## 5 dXdTWNDyyAQ=    4 2013-12-28T05:53:59        2.2          0      0
-    ## 6 1TgfIARG8dk=    4 2013-12-28T05:54:28        2.2          0      0
+    ## # A tibble: 109,703 × 30
+    ##    data_arq   Categoria.data_mov Empresa.Tipo Veiculo.Codigo Veiculo.modalidade
+    ##    <chr>      <chr>              <chr>        <chr>          <chr>             
+    ##  1 2021-12-26 2021-12-22         1            021            1                 
+    ##  2 2021-12-26 2021-12-22         1            021            1                 
+    ##  3 2021-12-26 2021-12-22         1            021            1                 
+    ##  4 2021-12-26 2021-12-22         1            021            1                 
+    ##  5 2021-12-26 2021-12-22         1            021            1                 
+    ##  6 2021-12-26 2021-12-22         1            021            1                 
+    ##  7 2021-12-26 2021-12-22         1            021            1                 
+    ##  8 2021-12-26 2021-12-22         1            021            1                 
+    ##  9 2021-12-26 2021-12-22         1            021            1                 
+    ## 10 2021-12-26 2021-12-22         1            021            1                 
+    ## # ℹ 109,693 more rows
+    ## # ℹ 25 more variables: Linha.Numero <chr>, Linha.validador <chr>,
+    ## #   Viagem.Numero <chr>, Viagem.jornada <chr>, Viagem.num_operador <chr>,
+    ## #   Viagem.tabela <chr>, Viagem.hora_abertura <chr>,
+    ## #   Viagem.hora_fechamento <chr>, Passageiro.data_hora_abertura <chr>,
+    ## #   Passageiro.data_hora_fechamento <chr>, Passageiro.catraca_inicio <chr>,
+    ## #   Passageiro.catraca_final <chr>, Passageiro.sentido <chr>, …
 
 ### Convert data example
 
@@ -115,13 +100,18 @@ lapply(xml_files, convert_xml)
 Sys.time()-ini
 ```
 
-    ## Time difference of 8.341527 mins
+    ## Time difference of 1.73606 mins
 
 ``` r
-list.files(pattern = ".csv",recursive = T)
+get_info(list.files(pattern = ".csv",recursive = T))
 ```
 
-    ## [1] "V20140101.csv" "V20140102.csv" "V20140113.csv"
+    ## # A tibble: 3 × 2
+    ##   path          size       
+    ##   <chr>         <chr>      
+    ## 1 V20140101.csv "23.021 KB"
+    ## 2 V20140102.csv " 1.685 KB"
+    ## 3 V20140113.csv "21.518 KB"
 
 You can use parallel to convert data quickly, use .rds to generate
 lightweight files.
@@ -160,10 +150,15 @@ parLapply(cl=cl,xml_files, convert_xml, ext=".rds")
 Sys.time()-ini
 ```
 
-    ## Time difference of 4.129895 mins
+    ## Time difference of 1.148819 mins
 
 ``` r
-list.files(pattern = ".rds",recursive = T)
+get_info(list.files(pattern = ".rds",recursive = T))
 ```
 
-    ## [1] "V20140101.rds" "V20140102.rds" "V20140113.rds"
+    ## # A tibble: 3 × 2
+    ##   path          size      
+    ##   <chr>         <chr>     
+    ## 1 V20140101.rds "1.550 KB"
+    ## 2 V20140102.rds "  117 KB"
+    ## 3 V20140113.rds "1.458 KB"
