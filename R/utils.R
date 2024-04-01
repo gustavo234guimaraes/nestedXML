@@ -4,14 +4,13 @@ with_names<-function(y,nm){
 }
 
 
-get_children<-function(x){
-  if(length(xmlChildren(x))>0){
-    cbind.data.frame(
-      with_names(data.frame(as.list(xmlAttrs(x)), stringsAsFactors = FALSE),nm=names(xmlParent(x))),
-      bind_rows(lapply(xmlChildren(x),get_children))
-    )
-  }else{
-    as.list(xmlAttrs(x))
+get_children<-function (x) {
+  if (length(xml_children(x)) > 0) {
+    cbind.data.frame(nestedXML:::with_names(data.frame(as.list(xml_attrs(x)), 
+                                                       stringsAsFactors = FALSE), nm = xml_name(x)), bind_rows(lapply(xml_children(x), 
+                                                                                                                      get_children)))
+  }else {
+    as.list(xml_attrs(x))
   }
 }
 

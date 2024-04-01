@@ -1,18 +1,20 @@
 read_xml<-function(file,node=NULL){
   
+  
+  
+  arqXML<-read_xml(file)
   if(is.null(node)){
-    arqXML<-XML::xmlParse(file)
-    node<-names(xmlRoot(arqXML))
+    node<-xml_name(xml_child(arqXML))
   }
   
   
-  bind_rows(xpathApply(arqXML, paste0("//",node), function(x) {
-    parent <- data.frame(as.list(xmlAttrs(x)), stringsAsFactors = FALSE)
-    kids <- bind_rows(lapply(xmlChildren(x), get_children))
+  nodes<-xml_find_all(arqXML, paste0("//", node))
+  lapply(nodes, function(x){
+    parent <- data.frame(as.list(xml_attrs(x)), stringsAsFactors = FALSE)
+    kids <- bind_rows(lapply(xml_children(x), get_children))
     cbind.data.frame(parent, kids, stringsAsFactors = FALSE)
-  })) %>% suppressMessages() %>% 
+  }) %>% unlist(recursive = F) %>%
+    suppressMessages() %>% 
     return()
-  
-  
   
 }
