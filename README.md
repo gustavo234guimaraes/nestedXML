@@ -44,25 +44,25 @@ as_tibble(df)
 ```
 
     ## # A tibble: 109,703 × 30
-    ##    data_arq   Categoria.data_mov Empresa.Tipo Veiculo.Codigo Veiculo.modalidade
-    ##    <chr>      <chr>              <chr>        <chr>          <chr>             
-    ##  1 2021-12-26 2021-12-22         1            021            1                 
-    ##  2 2021-12-26 2021-12-22         1            021            1                 
-    ##  3 2021-12-26 2021-12-22         1            021            1                 
-    ##  4 2021-12-26 2021-12-22         1            021            1                 
-    ##  5 2021-12-26 2021-12-22         1            021            1                 
-    ##  6 2021-12-26 2021-12-22         1            021            1                 
-    ##  7 2021-12-26 2021-12-22         1            021            1                 
-    ##  8 2021-12-26 2021-12-22         1            021            1                 
-    ##  9 2021-12-26 2021-12-22         1            021            1                 
-    ## 10 2021-12-26 2021-12-22         1            021            1                 
+    ##    data_arq   MovimentoDiario.data_mov Categoria.Tipo Empresa.Codigo
+    ##    <chr>      <chr>                    <chr>          <chr>         
+    ##  1 2021-12-26 2021-12-22               1              021           
+    ##  2 2021-12-26 2021-12-22               1              021           
+    ##  3 2021-12-26 2021-12-22               1              021           
+    ##  4 2021-12-26 2021-12-22               1              021           
+    ##  5 2021-12-26 2021-12-22               1              021           
+    ##  6 2021-12-26 2021-12-22               1              021           
+    ##  7 2021-12-26 2021-12-22               1              021           
+    ##  8 2021-12-26 2021-12-22               1              021           
+    ##  9 2021-12-26 2021-12-22               1              021           
+    ## 10 2021-12-26 2021-12-22               1              021           
     ## # ℹ 109,693 more rows
-    ## # ℹ 25 more variables: Linha.Numero <chr>, Linha.validador <chr>,
-    ## #   Viagem.Numero <chr>, Viagem.jornada <chr>, Viagem.num_operador <chr>,
-    ## #   Viagem.tabela <chr>, Viagem.hora_abertura <chr>,
-    ## #   Viagem.hora_fechamento <chr>, Passageiro.data_hora_abertura <chr>,
-    ## #   Passageiro.data_hora_fechamento <chr>, Passageiro.catraca_inicio <chr>,
-    ## #   Passageiro.catraca_final <chr>, Passageiro.sentido <chr>, …
+    ## # ℹ 26 more variables: Empresa.modalidade <chr>, Veiculo.Numero <chr>,
+    ## #   Veiculo.validador <chr>, Linha.Numero <chr>, Linha.jornada <chr>,
+    ## #   Linha.num_operador <chr>, Linha.tabela <chr>, Linha.hora_abertura <chr>,
+    ## #   Linha.hora_fechamento <chr>, Viagem.data_hora_abertura <chr>,
+    ## #   Viagem.data_hora_fechamento <chr>, Viagem.catraca_inicio <chr>,
+    ## #   Viagem.catraca_final <chr>, Viagem.sentido <chr>, …
 
 ### Convert data example
 
@@ -77,10 +77,15 @@ xml_files<-list.files(
   recursive = TRUE,
   full.names = TRUE
 )
-xml_files
+get_info(xml_files)
 ```
 
-    ## [1] "./V20140101.xml" "./V20140102.xml" "./V20140113.xml"
+    ## # A tibble: 3 × 2
+    ##   path            size     
+    ##   <chr>           <chr>    
+    ## 1 ./V20140101.xml 25.606 KB
+    ## 2 ./V20140102.xml 80.102 KB
+    ## 3 ./V20140113.xml 66.485 KB
 
 ``` r
 ini<-Sys.time()
@@ -100,18 +105,18 @@ lapply(xml_files, convert_xml)
 Sys.time()-ini
 ```
 
-    ## Time difference of 1.73606 mins
+    ## Time difference of 3.524898 mins
 
 ``` r
 get_info(list.files(pattern = ".csv",recursive = T))
 ```
 
     ## # A tibble: 3 × 2
-    ##   path          size       
-    ##   <chr>         <chr>      
-    ## 1 V20140101.csv "23.021 KB"
-    ## 2 V20140102.csv " 1.685 KB"
-    ## 3 V20140113.csv "21.518 KB"
+    ##   path          size     
+    ##   <chr>         <chr>    
+    ## 1 V20140101.csv 23.021 KB
+    ## 2 V20140102.csv 76.508 KB
+    ## 3 V20140113.csv 62.694 KB
 
 You can use parallel to convert data quickly, use .rds to generate
 lightweight files.
@@ -132,7 +137,9 @@ xml_files
 
 ``` r
 cl<-makeCluster(detectCores(logical = F))
+```
 
+``` r
 ini<-Sys.time()
 parLapply(cl=cl,xml_files, convert_xml, ext=".rds")
 ```
@@ -150,15 +157,15 @@ parLapply(cl=cl,xml_files, convert_xml, ext=".rds")
 Sys.time()-ini
 ```
 
-    ## Time difference of 1.148819 mins
+    ## Time difference of 1.850102 mins
 
 ``` r
 get_info(list.files(pattern = ".rds",recursive = T))
 ```
 
     ## # A tibble: 3 × 2
-    ##   path          size      
-    ##   <chr>         <chr>     
-    ## 1 V20140101.rds "1.550 KB"
-    ## 2 V20140102.rds "  117 KB"
-    ## 3 V20140113.rds "1.458 KB"
+    ##   path          size    
+    ##   <chr>         <chr>   
+    ## 1 V20140101.rds 1.550 KB
+    ## 2 V20140102.rds 4.780 KB
+    ## 3 V20140113.rds 4.011 KB
