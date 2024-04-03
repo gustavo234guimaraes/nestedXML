@@ -4,7 +4,7 @@ read_xml<-function(file,node=NULL){
   
   arqXML<-xml2::read_xml(file)
   if(is.null(node)){
-    node<-xml2::xml_name(xml_child(arqXML))
+    node<-xml2::xml_name(xml2::xml_child(arqXML))
   }
   
   
