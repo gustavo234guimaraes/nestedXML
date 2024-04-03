@@ -1,6 +1,6 @@
 convert_xml<-function(file,ext='.csv',out_dir=""){
   
-  arqXML<-read_xml(file)
+  arqXML<-xml2::read_xml(file)
   node<-xml_name(xml_child(arqXML))
   
   nodes<-xml_find_all(arqXML, paste0("//", node))

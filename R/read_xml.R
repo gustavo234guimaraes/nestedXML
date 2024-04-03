@@ -2,7 +2,7 @@ read_xml<-function(file,node=NULL){
   
   
   
-  arqXML<-read_xml(file)
+  arqXML<-xml2::read_xml(file)
   if(is.null(node)){
     node<-xml_name(xml_child(arqXML))
   }
